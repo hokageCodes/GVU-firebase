@@ -1,5 +1,5 @@
-"use client"
-
+// app/signup/page.jsx
+"use client";
 import React, { useState } from 'react';
 import { useAuth } from '../../authContext';
 import { AiOutlineUser, AiOutlineMail, AiOutlinePhone, AiOutlineLock } from 'react-icons/ai';
@@ -13,14 +13,20 @@ const SignUpForm = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     setLoading(true);
 
     try {
       await signup(fullName, matricNumber, email, password);
+      setSuccess('Account created successfully! Redirecting...');
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 2000);
     } catch (error) {
       setError(error.message);
     }
@@ -31,6 +37,7 @@ const SignUpForm = () => {
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-8">
       {error && <p className="text-red-500 mb-4">{error}</p>}
+      {success && <p className="text-green-500 mb-4">{success}</p>}
 
       <label className="flex items-center mb-2">
         <AiOutlineUser className="mr-2" />

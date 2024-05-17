@@ -1,4 +1,5 @@
-"use client"
+// app/login/page.jsx
+"use client";
 import React, { useState } from 'react';
 import { useAuth } from '../../authContext';
 import { AiOutlineMail, AiOutlineLock } from 'react-icons/ai';
@@ -9,14 +10,20 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     setLoading(true);
 
     try {
       await login(email, password);
+      setSuccess('Login successful! Redirecting...');
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 2000);
     } catch (error) {
       setError(error.message);
     }
@@ -25,8 +32,9 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-8">
+    <form onSubmit={handleSubmit} className="max-w-md mx-auto pt-32">
       {error && <p className="text-red-500 mb-4">{error}</p>}
+      {success && <p className="text-green-500 mb-4">{success}</p>}
 
       <label className="flex items-center mb-2">
         <AiOutlineMail className="mr-2" />

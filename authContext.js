@@ -1,6 +1,8 @@
-"use client"
+// authContext.js
+"use client";
 import React, { useState, useEffect, useContext } from 'react';
-import { auth } from './firebase'; // Import the auth module from firebase
+import { auth } from './firebase';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from 'firebase/auth';
 
 const AuthContext = React.createContext();
 
@@ -13,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       setLoading(false);
     });
@@ -22,18 +24,18 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const signup = async (fullName, matricNumber, email, password) => {
-    await auth.createUserWithEmailAndPassword(email, password);
-    await auth.currentUser.updateProfile({
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(userCredential.user, {
       displayName: fullName,
     });
   };
 
   const login = async (email, password) => {
-    await auth.signInWithEmailAndPassword(email, password);
+    await signInWithEmailAndPassword(auth, email, password);
   };
 
   const logout = () => {
-    auth.signOut();
+    signOut(auth);
   };
 
   const value = {
