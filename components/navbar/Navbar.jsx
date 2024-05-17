@@ -19,7 +19,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <img src="/path-to-logo.png" alt="Logo" className="h-8 w-8 mr-2" />
+            <img src="/assets/logo.jpg" alt="Logo" className="h-8 w-8 mr-2" />
             <span className="font-semibold text-xl">Glorius Vision University</span>
           </div>
           <div className="hidden md:block">
@@ -42,15 +42,15 @@ const Navbar = () => {
             {currentUser ? (
               <div className="relative">
                 <button onClick={toggleProfile} className="flex items-center space-x-2 focus:outline-none">
-                  <img src="/default-avatar.png" alt="User Avatar" className="h-8 w-8 rounded-full" />
+                  <img src="/assets/user-default.png" alt="User Avatar" className="h-8 w-8 rounded-full" />
                 </button>
                 {isProfileOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg py-2 rounded-md border border-gray-200 z-50">
+                  <div className="absolute right-0 mt-2 w-52 bg-white shadow-lg py-2 rounded-md border border-gray-200 z-50">
                     <div className="flex items-center px-4 py-2">
-                      <img src="/default-avatar.png" alt="User Avatar" className="h-10 w-10 rounded-full mr-2" />
+                      <img src="/assets/user-default.png" alt="User Avatar" className="h-10 w-10 rounded-full mr-2" />
                       <div>
                         <p className="font-semibold">{currentUser.displayName || 'User Name'}</p>
-                        <p className="text-sm text-gray-600">{currentUser.email}</p>
+                        <p className="text-sm text-gray-600">{currentUser.matricNumber}</p>
                       </div>
                     </div>
                     <hr className="my-1" />
@@ -77,7 +77,7 @@ const Navbar = () => {
           <div className="md:hidden flex items-center space-x-4">
             {currentUser && (
               <button onClick={toggleProfile} className="flex items-center space-x-2 focus:outline-none">
-                <img src="/default-avatar.png" alt="User Avatar" className="h-8 w-8 rounded-full" />
+                <img src="/assets/user-default.png" alt="User Avatar" className="h-8 w-8 rounded-full" />
               </button>
             )}
             <button onClick={toggleMenu} className="text-gray-700 hover:text-gray-900 focus:outline-none">
@@ -101,16 +101,26 @@ const Navbar = () => {
             <Link href="/faqs" className="block text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-base font-medium">
               FAQs
             </Link>
+            {!currentUser && (
+              <>
+                <Link href="/login" className="block text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-base font-medium">
+                  Login
+                </Link>
+                <Link href="/signup" className="block text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-base font-medium">
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}
-      {isProfileOpen && (
+      {isProfileOpen && currentUser && (
         <div className="absolute md:hidden top-16 right-0 w-48 bg-white shadow-lg py-2 rounded-md border border-gray-200 z-50">
           <div className="flex items-center px-4 py-2">
-            <img src="/default-avatar.png" alt="User Avatar" className="h-10 w-10 rounded-full mr-2" />
+            <img src="/assets/user-default.png" alt="User Avatar" className="h-10 w-10 rounded-full mr-2" />
             <div>
               <p className="font-semibold">{currentUser.displayName || 'User Name'}</p>
-              <p className="text-sm text-gray-600">{currentUser.email}</p>
+              <p className="text-sm text-gray-600">{currentUser.matricNumber}</p>
             </div>
           </div>
           <hr className="my-1" />
